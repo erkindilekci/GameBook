@@ -15,7 +15,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Singleton @Provides
+    @Singleton
+    @Provides
     fun provideApi(): Api {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -24,7 +25,8 @@ object AppModule {
             .create(Api::class.java)
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     fun provideRepository(api: Api): GameRepository {
         return GameRepositoryImpl(api)
     }

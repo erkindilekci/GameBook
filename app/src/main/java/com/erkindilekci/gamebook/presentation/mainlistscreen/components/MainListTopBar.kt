@@ -1,13 +1,22 @@
 package com.erkindilekci.gamebook.presentation.mainlistscreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
@@ -22,16 +31,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.erkindilekci.gamebook.R
 import com.erkindilekci.gamebook.presentation.theme.AppBar
+import com.erkindilekci.gamebook.presentation.theme.BackGround
+import com.erkindilekci.gamebook.presentation.theme.CardColor
 
 @Composable
-fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked: () -> Unit) {
+fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked: () -> Unit, onFilterClicked:(String) -> Unit) {
     var showSearchBar by remember { mutableStateOf(false) }
+    var showFilterBar by remember { mutableStateOf(false) }
 
     if (showSearchBar) {
         TopAppBar(
@@ -89,6 +102,32 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
                 }
             }
         )
+    } else if (showFilterBar) {
+        Column {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Game Book",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
+                    )
+                },
+                backgroundColor = Color(0xFF0075d5),
+                contentColor = Color.White,
+                actions = {
+                    IconButton(onClick = { showFilterBar = !showFilterBar }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_filter), contentDescription = "Filter", tint = Color.White)
+                    }
+
+                    IconButton(onClick = { showSearchBar = true }) {
+                        Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                    }
+                }
+            )
+
+            FilterBar(onFilterClicked)
+        }
     } else {
         TopAppBar(
             title = {
@@ -102,10 +141,55 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
             backgroundColor = Color(0xFF0075d5),
             contentColor = Color.White,
             actions = {
+                IconButton(onClick = { showFilterBar = !showFilterBar }) {
+                    Icon(painter = painterResource(id = R.drawable.ic_filter), contentDescription = "Filter", tint = Color.White)
+                }
+
                 IconButton(onClick = { showSearchBar = true }) {
                     Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
                 }
             }
         )
+    }
+}
+
+@Composable
+fun FilterBar(
+    onFilterClicked:(String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .height(45.dp)
+            .background(BackGround)
+    ) {
+        FilterMenu(onFilterClicked)
+    }
+}
+
+@Composable
+fun FilterMenu(
+    onFilterClicked:(String) -> Unit
+) {
+    val filters = listOf(
+        "All", "Shooter", "MMOARPG", "ARPG", "Strategy", "MMORPG",
+        "Fighing", "Action RPG", "Battle Royale", "MOBA",
+        "Racing", "Card Game", "Sports", "MMO", "Social", "Fantasy"
+    )
+
+    LazyRow(
+        contentPadding = PaddingValues(start = 6.dp, end = 6.dp, top = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(filters) { filter ->
+            TextButton(
+                onClick = { onFilterClicked(filter) },
+                colors = ButtonDefaults.textButtonColors(
+                    backgroundColor = AppBar,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = filter, color = Color.White)
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
     private val api: Api
-): GameRepository {
+) : GameRepository {
     override suspend fun getAllGames(): List<GameDto> {
         return api.getAllGames()
     }
