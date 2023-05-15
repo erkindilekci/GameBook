@@ -84,7 +84,7 @@ class MainListViewModel @Inject constructor(
     }
 
     private fun getGames() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val gameDtoList = repository.getAllGames()
 
             gameDtoList.forEach {
