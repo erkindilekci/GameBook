@@ -14,7 +14,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
@@ -39,10 +38,14 @@ import androidx.compose.ui.unit.sp
 import com.erkindilekci.gamebook.R
 import com.erkindilekci.gamebook.presentation.theme.AppBar
 import com.erkindilekci.gamebook.presentation.theme.BackGround
-import com.erkindilekci.gamebook.presentation.theme.CardColor
 
 @Composable
-fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked: () -> Unit, onFilterClicked:(String) -> Unit) {
+fun MyAppBar(
+    searchTf: String,
+    onStringChanged: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    onFilterClicked: (String) -> Unit
+) {
     var showSearchBar by remember { mutableStateOf(false) }
     var showFilterBar by remember { mutableStateOf(false) }
 
@@ -97,7 +100,7 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
                     Icon(
                         Icons.Filled.Close,
                         contentDescription = "Close Search",
-                        tint = MaterialTheme.colors.onSurface
+                        tint = Color.White
                     )
                 }
             }
@@ -117,7 +120,11 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
                 contentColor = Color.White,
                 actions = {
                     IconButton(onClick = { showFilterBar = !showFilterBar }) {
-                        Icon(painter = painterResource(id = R.drawable.ic_filter), contentDescription = "Filter", tint = Color.White)
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_filter),
+                            contentDescription = "Filter",
+                            tint = Color.White
+                        )
                     }
 
                     IconButton(onClick = { showSearchBar = true }) {
@@ -142,7 +149,11 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
             contentColor = Color.White,
             actions = {
                 IconButton(onClick = { showFilterBar = !showFilterBar }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_filter), contentDescription = "Filter", tint = Color.White)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_filter),
+                        contentDescription = "Filter",
+                        tint = Color.White
+                    )
                 }
 
                 IconButton(onClick = { showSearchBar = true }) {
@@ -155,7 +166,7 @@ fun MyAppBar(searchTf: String, onStringChanged: (String) -> Unit, onCloseClicked
 
 @Composable
 fun FilterBar(
-    onFilterClicked:(String) -> Unit
+    onFilterClicked: (String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -168,7 +179,7 @@ fun FilterBar(
 
 @Composable
 fun FilterMenu(
-    onFilterClicked:(String) -> Unit
+    onFilterClicked: (String) -> Unit
 ) {
     val filters = listOf(
         "All", "Shooter", "MMOARPG", "ARPG", "Strategy", "MMORPG",

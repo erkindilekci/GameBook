@@ -31,8 +31,7 @@ fun MainListScreen(
 ) {
     val mainListState = viewModel.mainListState.collectAsState()
 
-    //var gameList = mainListState.value.gameList
-    var gameList: List<Game> = emptyList()
+    var gameList: List<Game>
 
     var selectedScreen by remember { mutableStateOf(screens.first()) }
     var selectedFilter by rememberSaveable { mutableStateOf("All") }
@@ -59,6 +58,7 @@ fun MainListScreen(
                 "fantasy" -> gameList = mainListState.value.pcfantasyGames
             }
         }
+
         is Screen.WebGames -> {
             gameList = mainListState.value.webGames
             when (selectedFilter.trim().lowercase()) {
@@ -80,6 +80,7 @@ fun MainListScreen(
                 "fantasy" -> gameList = mainListState.value.webfantasyGames
             }
         }
+
         else -> {
             gameList = mainListState.value.gameList
             when (selectedFilter.trim().lowercase()) {
@@ -113,7 +114,6 @@ fun MainListScreen(
             )
         },
         backgroundColor = BackGround,
-        //contentColor = Color.White
         content = {
             LazyColumn(Modifier.padding(it)) {
                 val newList: List<Game>
